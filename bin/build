@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Builds the rspec docker image
+
+docker-compose build rspec

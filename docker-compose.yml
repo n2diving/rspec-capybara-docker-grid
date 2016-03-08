@@ -1,0 +1,55 @@
+web:
+  image: mycargus/hello-docker-world:latest
+  environment:
+    VIRTUAL_HOST: app.under.test
+
+rspec:
+  build: .
+  dockerfile: Dockerfile
+  environment:
+    APP_HOST: app.under.test
+    HUB_HOST: selenium.hub.docker
+  volumes:
+    - .:/usr/src/app
+  links:
+    - web
+    - hub
+
+hub:
+  image: selenium/hub:2.52.0
+  environment:
+    VIRTUAL_HOST: selenium.hub.docker
+  ports:
+    - 4444:4444
+
+node-firefox:
+  image: selenium/node-firefox:2.52.0
+  environment:
+    VIRTUAL_HOST: selenium.firefox.docker
+  links:
+    - hub
+
+node-chrome:
+  image: selenium/node-chrome:2.52.0
+  environment:
+    VIRTUAL_HOST: selenium.chrome.docker
+  links:
+    - hub
+
+node-chrome-debug:
+  image: selenium/node-chrome-debug:2.52.0
+  environment:
+    VIRTUAL_HOST: selenium.debug.chrome.docker
+  ports:
+    - 5900:5900
+  links:
+    - hub
+
+node-firefox-debug:
+  image: selenium/node-firefox-debug:2.52.0
+  environment:
+    VIRTUAL_HOST: selenium.debug.firefox.docker
+  ports:
+    - 5901:5900
+  links:
+    - hub

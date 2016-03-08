@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Starts rspec, the Selenium hub, the app under test, and the Selenium *debug*
+# browser nodes
+
+./bin/stop
+
+docker-compose up -d rspec node-chrome-debug node-firefox-debug
