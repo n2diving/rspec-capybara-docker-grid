@@ -7,40 +7,43 @@ I've included bash scripts in the `/bin` directory as wrappers for the `docker-c
 
 Both RSpec and Capybara are automatically provisioned in the `rspec` docker image. As usual, you can easily customize their configurations in `spec/spec_helper.rb`.
 
-### Dependencies (Mac OSX)
+## Dependencies (OSX)
 
-1. [dinghy](https://github.com/codekitchen/dinghy)  <--- You'll love it!!
+1. a copy of this repo on your machine
+2. [homebrew package manager](http://brew.sh/)
+3. docker, docker-machine, and docker-compose: `$ brew install docker docker-machine docker-compose`
+4. optional extras to make your life easier: [dinghy](https://github.com/codekitchen/dinghy)
+   
+## Dependencies (Linux)
 
-If you haven't already followed dinghy's advice by adding the specified environment variables to your `.bashrc` file or equivalent, you need to do that now.
+1. a copy of this repo on your machine
+2. [docker and docker-compose](https://docs.docker.com/engine/installation/linux/)
+3. optional extras to make your life easier: [dory](https://github.com/FreedomBen/dory)
 
-You'll know everything is working when you execute these commands...
-```sh 
-$ dinghy up
-$ dinghy status
+### A note on dinghy and dory
+
+`dinghy` and `dory` are excellent Docker utilities for MacOSX and Linux, respectively. They simplify your dockerized
+development workflow in multiple ways, perhaps the most convenient of which is this: instead of viewing your dockerized 
+web app in your browser with `http://$(docker-machine ip):<port>`, you can simply go to `http://myapp.docker`.
+
+_Both `dinghy` and `dory` are optional dependencies, and one may certainly use the bare-bones Docker ecosystem 
+(and [docker-grid-rspec-capybara](https://github.com/mycargus/docker-grid-rspec-capybara)) without them._
+
+## Setup
+
+By default this project will use [a bare-bones Sinatra web app](https://github.com/mycargus/hello-docker-world) as the 
+app under test (AUT). 
+
+If you'd like to see this project in action before adding your app, go ahead and skip to the 
+["How do I execute the tests?"](https://github.com/mycargus/docker-grid-rspec-capybara/blob/master/README.md#how-do-i-execute-the-tests) section.
+
+### Where do I add my app?
+
+Add the docker image of the AUT to the `docker-compose.yml` file under the `web` service container. 
+
+If you're using `dinghy` or `dory`, be sure to define the AUT's virtual URL (a default is provided). For example:
+
 ```
-
-... and you see this:
-```sh
-$ dinghy status
-  VM: running
- NFS: running
-FSEV: running
- DNS: running
-HTTP: running
-
-Your environment variables are already set correctly.
-```
-
-2. docker-compose: `$ brew install docker-compose`
-3. a copy of this repo on your machine
-4. a docker image of the app under test (optional if you want to skip ahead)
-
-By default the project will use [a bare-bones Sinatra web app](https://github.com/mycargus/hello-docker-world) as the app under test, so if you'd like to see this project in action before adding your app, go ahead and skip to the ["How do I execute the tests?"](https://github.com/mycargus/docker-grid-rspec-capybara#how-do-i-execute-the-tests) section.
-
-### Setup
-
-Add the docker image of the app under test to the `docker-compose.yml` file. Be sure to define its virtual URL (a default is provided). For example:
-``` 
 web:
   image: app-under-test:latest
   environment:
@@ -49,60 +52,66 @@ web:
 
 That was easy!
 
-NOTE: `VIRTUAL_HOST` is your app's URL against which Capybara will execute the tests. It can be whatever you want. If you change it, be sure to also change the value of `APP_HOST` in the `rspec` image's docker-compose.yml configuration.
+NOTE: `VIRTUAL_HOST` is your app's URL against which Nightwatch will execute the tests. It can be whatever you want. If you
+change it, be sure to replace the launch_url value located in the `nightwatch.json` file.
 
-If you're not sure how to create or pull a docker image, I recommend working through the official Docker tutorial located on their website.
+If you're not sure how to create or pull a docker image, I recommend working through the official Docker tutorial located on
+their website.
 
-### How do I execute the tests?
+## How do I execute the tests?
 
-Start dinghy if it isn't already running (you can check with `$ dinghy status`):
-```sh
-$ dinghy up
-```
+Start the Selenium hub, the AUT, and the Selenium browser nodes:
 
-Start the Selenium hub, the app under test, RSpec+Capybara, and the Selenium browser nodes:
 ```sh
 $ bin/start
 ```
 
-Execute the tests:
+Execute the tests with Nightwatch:
+
 ```sh
 $ bin/test
 ```
 
 When you're done, stop and remove the docker containers:
+
 ```sh
 $ bin/stop
 ```
 
-### Can I view the Selenium grid console?
+## Can I view the Selenium grid console?
 
-Yep! After having started the Selenium hub and nodes (`$ bin/start`), open a
+Yep! After having started the Selenium hub and nodes (`$ npm start`), open a
 browser and go to [http://selenium.hub.docker](http://selenium.hub.docker), then click the 'console' link.
 
-### A test is failing. How do I debug it?
+## A test is failing. How do I debug it?
 
 Start the Selenium hub, the app under test, and the Selenium *debug* browser nodes:
+
 ```sh
 $ bin/debug_start
 ```
 
 View the chrome debug node via VNC (password: `secret`):
+
 ```sh
 $ open vnc://node.chrome.debug.docker
 ```
 
-or view the firefox debug node via VNC (password: `secret`):
+View the firefox debug node via VNC (password: `secret`):
+
 ```sh
 $ open vnc://node.firefox.debug.docker
 ```
 
-Next execute the tests against the debug nodes:
+Next execute the Nightwatch tests against the debug nodes:
+
 ```sh
 $ bin/test
 ```
 
 Again, once you're finished:
+
 ```sh
 $ bin/stop
 ```
+
