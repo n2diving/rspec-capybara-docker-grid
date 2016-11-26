@@ -1,5 +1,5 @@
 #!/bin/bash
 
-# Builds the rspec docker image
+# Builds the testrunner docker image for rspec and capybara
 
-docker-compose build rspec
+docker-compose build --pull testrunner

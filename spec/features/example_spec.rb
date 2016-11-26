@@ -5,7 +5,7 @@ describe 'Loading the app under test' do
     puts 'Capybara test started'
 
     visit '/'
-    expect(page).to have_content 'Hello Docker World!'
+    expect(page).to have_content 'Hello, Docker World!'
 
     puts 'Capybara test finished'
     puts '¸¸♬·¯·♩¸¸♪·¯·♫¸¸Happy Dance¸¸♬·¯·♩¸¸♪·¯·♫¸¸'
