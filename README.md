@@ -75,6 +75,13 @@ When you're done, stop and remove the docker containers:
 $ bin/stop
 ```
 
+## I want to see the app under test. How can I do that?
+
+Open your browser and go to http://hello.docker. Easy!
+
+If you changed the value of `VIRTUAL_HOST` for the web service in your
+docker-compose.yml config, then you'll want to open that URL instead.
+
 ## Can I view the Selenium grid console?
 
 Yep! After having started the Selenium hub and nodes (`$ npm start`), open a
