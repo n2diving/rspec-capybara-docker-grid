@@ -5,13 +5,13 @@ require 'selenium-webdriver'
 
 RSpec.configure do |config|
   config.include Capybara::DSL
+  config.color = true
+  config.tty = true
+  config.default_formatter = 'doc'
 end
 
 Capybara.configure do |config|
   config.default_max_wait_time = 5
-
-  # Changing these settings will affect the Selenium grid:
-  ### <grid_settings> ###
 
   capabilities = Selenium::WebDriver::Remote::Capabilities.firefox
 
@@ -30,6 +30,4 @@ Capybara.configure do |config|
 
   config.default_driver = :remote_browser
   config.javascript_driver = :remote_browser
-
-  ### </grid_settings> ###
 end

@@ -1,12 +1,9 @@
-FROM ruby:2.3
+FROM instructure/ruby:2.3
 
 USER root
 
 ENV APP_HOME /usr/src/app
-RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
-
-RUN groupadd -r docker && useradd -r -g docker docker
 
 COPY Gemfile Gemfile.lock $APP_HOME/
 
