@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-# Starts testrunner execution of all feature specs
+# Starts testrunner execution of all specs
 
-docker-compose run --rm testrunner bundle exec rspec spec/features
+docker-compose run --rm testrunner ruby grid/testrunner.rb
