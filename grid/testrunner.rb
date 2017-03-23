@@ -19,7 +19,7 @@ module Grid
       puts "############################\n\n"
 
       Capybara.configure do |config|
-        capabilities = Selenium::WebDriver::Remote::Capabilities.firefox
+        capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.to_sym)
 
         config.register_driver :remote_browser do |app|
           Capybara::Selenium::Driver.new(
