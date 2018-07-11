@@ -1,5 +1,5 @@
 require 'rspec'
-require 'capybara'
+require 'capybara/rspec'
 require 'selenium-webdriver'
 
 module Grid
@@ -18,18 +18,15 @@ module Grid
       puts "Starting #{browser.capitalize} test run..."
       puts "############################\n\n"
 
-      Capybara.configure do |config|
+      Capybara.register_driver :remote_browser do |app|
         capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.to_sym)
 
-        config.register_driver :remote_browser do |app|
-          Capybara::Selenium::Driver.new(
-            app, {
-              :browser => :remote,
-              url: "http://#{ENV['HUB_HOST']}/wd/hub",
-              desired_capabilities: capabilities
-            }
-          )
-        end
+        Capybara::Selenium::Driver.new(
+          app,
+          browser: browser.to_sym,
+          url: "http://#{ENV['HUB_HOST']}/wd/hub",
+          desired_capabilities: capabilities
+        )
       end
     end
   end
