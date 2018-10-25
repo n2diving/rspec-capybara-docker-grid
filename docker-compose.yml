@@ -2,11 +2,6 @@ version: '3'
 
 services:
 
-  web:
-    image: mycargus/hello_docker_world:latest
-    environment:
-      VIRTUAL_HOST: hello.docker
-
   testrunner:
     build:
       context: .
@@ -16,7 +11,6 @@ services:
     volumes:
       - .:/usr/src/app
     links:
-      - web
       - hub
 
   hub:

@@ -4,7 +4,7 @@ require 'selenium-webdriver'
 
 module Grid
   class TestRunner
-    BROWSERS = ['firefox', 'chrome'].freeze
+    BROWSERS = ['chrome'].freeze
 
     def run
       BROWSERS.each do |browser|
