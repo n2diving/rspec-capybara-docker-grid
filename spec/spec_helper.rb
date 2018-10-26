@@ -13,7 +13,7 @@ end
 Capybara.configure do |config|
   config.default_max_wait_time = 5
 
-  config.app_host = "https://weblinc.dev.bouqs.com/flowers/all"
+  config.app_host = "https://weblinc.dev.bouqs.com"
   config.run_server = false
 
   config.default_driver = :remote_browser

@@ -15,16 +15,21 @@ describe 'Loading the app under test' do
   it 'runs through the checkout flow' do
     puts 'start'
     puts page.html
+    visit('/flowers/all/')
+    first('.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close').click
     first('.product-summary__media-link').click
-    fill_in('delivery_date', :with => '')
+    first('.product-details__shipping-date').click
+    first('td[data-handler="selectDay"]').click
     click_button('Add To Basket')
     click_link('Checkout')
     puts 'begin checkout'
-    within('checkout_form') do
+    within('#checkout_form') do
       fill_in('shipping_address[][first_name]', :with => 'Jane')
       fill_in('shipping_address[][last_name]', :with => 'Doe')
       select('Self', :from => 'shipping_address[][relationship_label]')
-      select('home', :from => 'shipping_address[][type]')
+      first('#type_shipping_address_1').click
+      first('option[value="home"]').click
+      select('home', :from => '#type_shipping_address_1', visible: false)
       fill_in('shipping_address[][street]', :with => '123')
       select('Other', :from => 'order_item[5bca2a3c617070484f0000e8][occasion]')
       fill_in('order_item[5bca2a3c617070484f0000e8][message]', :with => 'Message')
