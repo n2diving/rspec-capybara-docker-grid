@@ -2,19 +2,8 @@ require 'spec_helper'
 
 describe 'Loading the app under test' do
   
-  xit 'displays the home page' do
-    puts 'Capybara test started'
-
-    visit '/'
-    expect(page).to have_content 'Hello, Docker World!'
-
-    puts 'Capybara test finished'
-    puts '¸¸♬·¯·♩¸¸♪·¯·♫¸¸Happy Dance¸¸♬·¯·♩¸¸♪·¯·♫¸¸'
-  end
-
   it 'runs through the checkout flow' do
     puts 'start'
-    puts page.html
     visit('/flowers/all/')
     first('.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close').click
     first('.product-summary__media-link').click
@@ -24,25 +13,26 @@ describe 'Loading the app under test' do
     click_link('Checkout')
     puts 'begin checkout'
     within('#checkout_form') do
-      fill_in('shipping_address[][first_name]', :with => 'Jane')
-      fill_in('shipping_address[][last_name]', :with => 'Doe')
-      select('Self', :from => 'shipping_address[][relationship_label]')
-      first('#type_shipping_address_1').click
-      first('option[value="home"]').click
-      select('home', :from => '#type_shipping_address_1', visible: false)
-      fill_in('shipping_address[][street]', :with => '123')
-      select('Other', :from => 'order_item[5bca2a3c617070484f0000e8][occasion]')
-      fill_in('order_item[5bca2a3c617070484f0000e8][message]', :with => 'Message')
-      fill_in('order_item[5bca2a3c617070484f0000e8][signature]', :with => 'Signature')
+      fill_in('shipping_address[][first_name]', with: 'Jane')
+      fill_in('shipping_address[][last_name]', with: 'Doe')
+      select 'Home', from: 'type_shipping_address_1'
+      select('Self', from: 'shipping_address[][relationship_label]')
+      fill_in('shipping_address[][street]', with: '1231 Wilshire Boulevard')
+      fill_in('shipping_address[][city]', with: 'Santa Monica')
+      select 'California', from: 'region_shipping_address_1'
+      fill_in('shipping_address[][postal_code]', with: '90403')
+      fill_in('shipping_address[][phone_number]', with: '3105551212')
       click_button('Continue')
       puts 'continue'
-      fill_in('credit_card[number]', :with => '4242424242424242')
-      fill_in('billing_address[name_on_card]', :with => 'Testing Testing')
-      select('2021', :from => 'credit_card[year]')
-      fill_in('credit_card[cvv]', :with => '123')
-      fill_in('billing_address[postal_code]', :with => '90440')
-      fill_in('email', :with => 'alexis@thebouqs.com')
+      fill_in('credit_card_number', with: '4242424242424242')
+      fill_in('billing_address[name_on_card]', with: 'Testing Testing')
+      select('2021', from: 'credit_card[year]')
+      fill_in('credit_card[cvv]', with: '123')
+      fill_in('billing_address[postal_code]', with: '90440')
+      fill_in('email', with: 'alexis@thebouqs.com')
     end
+    click_button('Place Order')
+     puts 'checkout complete'
   end
 
 end
