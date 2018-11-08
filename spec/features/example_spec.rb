@@ -15,7 +15,7 @@ describe 'Loading the app under test' do
     within('#checkout_form') do
       fill_in('shipping_address[][first_name]', with: 'Jane')
       fill_in('shipping_address[][last_name]', with: 'Doe')
-      select 'Home', from: 'type_shipping_address_1'
+      select('Home', from: 'shipping_address[][type]')
       select('Self', from: 'shipping_address[][relationship_label]')
       fill_in('shipping_address[][street]', with: '1231 Wilshire Boulevard')
       fill_in('shipping_address[][city]', with: 'Santa Monica')

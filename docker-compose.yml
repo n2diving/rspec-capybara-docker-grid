@@ -29,7 +29,7 @@ services:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
     ports:
-      - "5900:5900"
+      - "0:5900"
     links:
       - hub
 
